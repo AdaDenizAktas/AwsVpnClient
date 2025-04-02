@@ -1,0 +1,79 @@
+﻿<Window x:Class="AwsVpnClient.UI.Views.ServerManagerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:AwsVpnClient.UI.ViewModels"
+        xmlns:conv="clr-namespace:AwsVpnClient.UI.Converters"
+        Title="Server Manager" Height="500" Width="500">
+
+    <Window.Resources>
+        <conv:BoolInverseVisibilityConverter x:Key="BoolInverseVisibilityConverter"/>
+        <conv:RegionEnableMultiConverter x:Key="RegionEnableMultiConverter"/>
+        <conv:RegionDisableMultiConverter x:Key="RegionDisableMultiConverter"/>
+    </Window.Resources>
+
+    <Window.DataContext>
+        <vm:ServerManagerViewModel/>
+    </Window.DataContext>
+
+    <StackPanel Margin="20">
+        <TextBlock x:Name="TxtAccessKey"
+                   Text="AWS Access Key:"
+                   Visibility="{Binding CredentialsSaved, Converter={StaticResource BoolInverseVisibilityConverter}}" />
+
+        <TextBox x:Name="AccessKeyBox"
+                 Text="{Binding AccessKey, UpdateSourceTrigger=PropertyChanged}"
+                 Margin="0,5"
+                 Visibility="{Binding CredentialsSaved, Converter={StaticResource BoolInverseVisibilityConverter}}" />
+
+        <TextBlock x:Name="TxtSecretKey"
+                   Text="AWS Secret Key:"
+                   Visibility="{Binding CredentialsSaved, Converter={StaticResource BoolInverseVisibilityConverter}}" />
+
+        <PasswordBox x:Name="SecretKeyBox"
+                     Margin="0,5"
+                     PasswordChanged="SecretKeyBox_PasswordChanged"
+                     Visibility="{Binding CredentialsSaved, Converter={StaticResource BoolInverseVisibilityConverter}}" />
+
+        <Button x:Name="SaveButton"
+                Content="Save and Apply"
+                Command="{Binding SaveCommand}"
+                Margin="0,15,0,10"
+                Height="30"
+                Visibility="{Binding CredentialsSaved, Converter={StaticResource BoolInverseVisibilityConverter}}" />
+
+        <TextBlock Text="Available Regions / Servers:" FontWeight="Bold" Margin="0,10,0,5" />
+
+        <ItemsControl ItemsSource="{Binding Regions}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel Margin="0,5">
+                        <TextBlock Text="{Binding}" Width="150" VerticalAlignment="Center"/>
+
+                        <Button Content="Create VPN"
+                                Command="{Binding DataContext.CreateServerCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                CommandParameter="{Binding}"
+                                Margin="5,0">
+                            <Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource RegionEnableMultiConverter}">
+                                    <Binding Path="DataContext.ActiveRegion" RelativeSource="{RelativeSource AncestorType=Window}" />
+                                    <Binding Path="."/>
+                                </MultiBinding>
+                            </Button.IsEnabled>
+                        </Button>
+
+                        <Button Content="Terminate"
+                                Command="{Binding DataContext.TerminateServerCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                CommandParameter="{Binding}">
+                            <Button.IsEnabled>
+                                <MultiBinding Converter="{StaticResource RegionDisableMultiConverter}">
+                                    <Binding Path="DataContext.ActiveRegion" RelativeSource="{RelativeSource AncestorType=Window}" />
+                                    <Binding Path="."/>
+                                </MultiBinding>
+                            </Button.IsEnabled>
+                        </Button>
+                    </DockPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+    </StackPanel>
+</Window>

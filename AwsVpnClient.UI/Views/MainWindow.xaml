@@ -1,0 +1,36 @@
+﻿<Window x:Class="AwsVpnClient.UI.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:AwsVpnClient.UI.ViewModels"
+        xmlns:conv="clr-namespace:AwsVpnClient.UI.Converters"
+        Title="AWS VPN Client" Height="350" Width="500">
+
+    <Window.DataContext>
+        <vm:MainViewModel/>
+    </Window.DataContext>
+
+    <StackPanel Margin="20" VerticalAlignment="Center">
+
+        <!-- Server Management -->
+        <Button Content="Manage Servers" Command="{Binding OpenServerManagerCommand}" Margin="0,10"/>
+
+        <!-- Connect VPN -->
+        <Button Content="Connect VPN" Command="{Binding ConnectVpnCommand}" 
+                IsEnabled="{Binding CanConnect}" Margin="0,5"/>
+
+        <!-- Disconnect VPN -->
+        <Button Content="Disconnect" Command="{Binding DisconnectCommand}"
+                IsEnabled="{Binding IsConnected}" Margin="0,5"/>
+
+        <!-- VPN Status -->
+        <TextBlock Text="{Binding Status}" FontWeight="Bold" Margin="0,15" HorizontalAlignment="Center"/>
+
+        <!-- WireGuard Warning -->
+        <TextBlock Text="WireGuard not detected. Click here to install it." 
+                   Foreground="Red" Cursor="Hand"
+                   Visibility="{Binding IsWireGuardInstalled, Converter={StaticResource BoolInverseVisibilityConverter}}"
+                   FontWeight="Bold"
+                   Margin="0,0,0,10"
+                   MouseDown="OpenWireGuardSite" />
+    </StackPanel>
+</Window>

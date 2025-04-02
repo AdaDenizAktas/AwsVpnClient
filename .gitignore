@@ -1,0 +1,26 @@
+# Build artifacts
+bin/
+obj/
+*.dll
+*.pdb
+*.exe
+*.msi
+
+# User-specific files
+*.user
+*.suo
+
+# Visual Studio / JetBrains
+.vscode/
+.idea/
+
+# Installer output
+AwsVpnClient.Installer/bin/
+AwsVpnClient.Installer/obj/
+
+# Sensitive credentials / keys
+*.pem
+aws_credentials.dat
+
+# Publish output (optional)
+publish/

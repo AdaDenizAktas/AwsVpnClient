@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="AwsVpnClient" Language="1033" Version="1.0.0.0" Manufacturer="YourCompany" UpgradeCode="07af0770-00fe-42cd-842b-93714b6762be">
+		<Package InstallerVersion="500" Compressed="yes" InstallScope="perMachine" />
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate />
+
+		<Feature Id="ProductFeature" Title="AwsVpnClient" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="AwsVpnClient" />
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<Component Id="Exe" Guid="a89fe37c-80d5-4373-aeb4-9f438fa3123d">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\AwsVpnClient.UI.exe" KeyPath="yes"/>
+			</Component>
+			<Component Id="UiDll" Guid="3ff85d23-c1df-4dcf-a802-991a9b66d1e4">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\AwsVpnClient.UI.dll"/>
+			</Component>
+			<Component Id="CoreDll" Guid="b3d524db-3a56-46de-8a2e-0cdff2f36db8">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\AwsVpnClient.Core.dll"/>
+			</Component>
+			<Component Id="InfraDll" Guid="6ce012bc-f218-4eb5-80fa-05e50d83775c">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\AwsVpnClient.Infrastructure.dll"/>
+			</Component>
+			<Component Id="DepsJson" Guid="8be010a2-c3f1-4d11-a226-bd90a91c2b6a">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\AwsVpnClient.UI.deps.json"/>
+			</Component>
+			<Component Id="RuntimeJson" Guid="2781c154-3fd0-4e48-8912-b471eec4a97c">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\AwsVpnClient.UI.runtimeconfig.json"/>
+			</Component>
+			<Component Id="SdkCore" Guid="7fefc9f2-769c-405f-a1c4-bca9738468c2">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\AWSSDK.Core.dll"/>
+			</Component>
+			<Component Id="SdkEc2" Guid="5a8b8a49-10f5-4f79-b4ff-445add6a08a1">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\AWSSDK.EC2.dll"/>
+			</Component>
+			<Component Id="SdkIam" Guid="de1bc238-fef6-4a68-b5dc-cd3d224aec3b">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\AWSSDK.IdentityManagement.dll"/>
+			</Component>
+			<Component Id="ToolkitMvvm" Guid="16f7bd3a-e38d-4cf3-8ce7-878d12b91c47">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\CommunityToolkit.Mvvm.dll"/>
+			</Component>
+			<Component Id="Newtonsoft" Guid="08856b2e-5cbf-4a16-95d5-d2b87a3b7d6a">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\Newtonsoft.Json.dll"/>
+			</Component>
+			<Component Id="CryptoData" Guid="90c14288-61c2-40fc-8a33-5705a17c5413">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\System.Security.Cryptography.ProtectedData.dll"/>
+			</Component>
+			<Component Id="WireGuardExe" Guid="f812203d-c113-4e4c-b8be-bef64d003528">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\wireguard.exe"/>
+			</Component>
+			<Component Id="InstallSh" Guid="9a8f1d1a-7c84-4fd1-8746-9e5b973e3ed0">
+				<File Source="..\AwsVpnClient.UI\bin\Release\net8.0-windows\publish\WireGuardScript\install.sh"/>
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>
